@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { parseCSV } from '$lib/format';
+	import { parseCSV } from '$lib/csv';
 	import type { Transaction } from '../app';
 
 	interface Props {
@@ -32,7 +32,6 @@
 				const csvText = e.target?.result as string;
 				const parsedData = parseCSV(csvText);
 
-				// Validate and convert to Transaction format
 				const transactions: Transaction[] = parsedData.map((row, index) => {
 					const transaction: Transaction = {
 						id: (row.id as string) || `imported_${Date.now()}_${index}`,
@@ -42,7 +41,6 @@
 						category: (row.category as string) || undefined
 					};
 
-					// Validate required fields
 					if (!transaction.date || !transaction.description) {
 						throw new Error(`Invalid data in row ${index + 1}: missing required fields`);
 					}
@@ -50,7 +48,7 @@
 					return transaction;
 				});
 
-				previewData = transactions.slice(0, 10); // Show first 10 rows for preview
+				previewData = transactions.slice(0, 10);
 				showPreview = true;
 				isProcessing = false;
 			} catch (err) {

@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type { Transaction } from '../app';
-	import { formatCurrency, formatDate, suggestCategory, getAllCategories, exportToCSV } from '$lib/format';
+	import { formatCurrency, formatDate } from '$lib/format';
+	import { suggestCategory, getAllCategories } from '$lib/category';
+	import { exportToCSV } from '$lib/csv';
 
 	interface Props {
 		data: Transaction[];
@@ -24,7 +26,6 @@
 	});
 
 	let selectedTransactions = $state<Set<string>>(new Set());
-	let showCategorySuggestions = $state(false);
 	let dismissedSuggestions = $state<Set<string>>(new Set());
 
 	const categories = ['', ...getAllCategories()];
@@ -136,7 +137,6 @@
 			return transaction;
 		});
 		handleChangeTransactions(updatedData);
-		showCategorySuggestions = false;
 	};
 
 	const exportTransactions = () => {

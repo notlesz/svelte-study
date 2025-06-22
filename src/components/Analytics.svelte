@@ -101,7 +101,6 @@
 		</div>
 	</div>
 
-	<!-- Category Breakdown -->
 	<div class="category-breakdown">
 		<h4>Spending by Category</h4>
 
@@ -201,13 +200,14 @@
 	}
 
 	.category-list {
-		display: flex;
-		flex-direction: column;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
 		gap: 1rem;
 	}
 
 	.category-item {
 		background: white;
+		flex: 3;
 		padding: 1rem;
 		border-radius: 6px;
 		border: 1px solid #dee2e6;

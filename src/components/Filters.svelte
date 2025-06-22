@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getAllCategories } from '$lib/format';
+	import { getAllCategories } from '$lib/category';
 	import type { Transaction } from '../app';
 
 	interface Props {
@@ -9,7 +9,6 @@
 
 	let { transactions, onFilter }: Props = $props();
 
-	let searchTerm = $state('');
 	let selectedCategory = $state('');
 	let startDate = $state('');
 	let endDate = $state('');
@@ -22,11 +21,6 @@
 
 	const applyFilters = () => {
 		let filtered = [...transactions];
-
-		if (searchTerm.trim()) {
-			const term = searchTerm.toLowerCase();
-			filtered = filtered.filter((t) => t.description.toLowerCase().includes(term) || (t.category && t.category.toLowerCase().includes(term)));
-		}
 
 		if (selectedCategory) {
 			filtered = filtered.filter((t) => t.category === selectedCategory);
@@ -49,16 +43,11 @@
 			});
 		}
 
-		if (!searchTerm.trim() && !selectedCategory && !startDate && !endDate) {
+		if (!selectedCategory && !startDate && !endDate) {
 			onFilter(null);
 		} else {
 			onFilter(filtered);
 		}
-	};
-
-	const filterBySearchTerm = (e: Event) => {
-		searchTerm = (e.target as HTMLInputElement).value;
-		applyFilters();
 	};
 
 	const filterByCategory = (e: Event) => {
@@ -71,7 +60,6 @@
 	};
 
 	const clearFilters = () => {
-		searchTerm = '';
 		selectedCategory = '';
 		startDate = '';
 		endDate = '';
@@ -83,11 +71,6 @@
 	<h3>Filters</h3>
 
 	<div class="filters-grid">
-		<div class="filter-group">
-			<label for="search">Search:</label>
-			<input id="search" type="text" value={searchTerm} placeholder="Search transactions..." onchange={filterBySearchTerm} />
-		</div>
-
 		<div class="filter-group">
 			<label for="category">Category:</label>
 			<select id="category" value={selectedCategory} onchange={filterByCategory}>

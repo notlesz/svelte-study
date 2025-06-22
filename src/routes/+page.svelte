@@ -1,10 +1,9 @@
 <script lang="ts">
 	import type { Transaction } from '../app';
-	import { suggestCategory } from '$lib/format';
-	import TransactionTable from './Table.svelte';
-	import Filters from './Filters.svelte';
-	import Analytics from './Analytics.svelte';
-	import CSVUploader from './CSVUploader.svelte';
+	import TransactionTable from '../components/Table.svelte';
+	import Filters from '../components/Filters.svelte';
+	import Analytics from '../components/Analytics.svelte';
+	import CSVUploader from '../components/CSVUploader.svelte';
 	import type { Config } from '@sveltejs/adapter-vercel';
 
 	export const config: Config = {
@@ -16,12 +15,7 @@
 	let showAnalytics = $state(true);
 	let showUploader = $state(false);
 
-	const displayTransactions = $derived(() => {
-		if (filteredTransactions === null) {
-			return allTransactions;
-		}
-		return filteredTransactions;
-	});
+	const displayTransactions = $derived(filteredTransactions === null ? allTransactions : filteredTransactions);
 
 	const handleChangeTransactions = (nextTransactions: Transaction[]) => {
 		allTransactions = nextTransactions;
@@ -88,16 +82,16 @@
 		<Filters transactions={allTransactions} onFilter={handleFilteredTransactions} />
 
 		{#if showAnalytics}
-			<Analytics transactions={displayTransactions()} />
+			<Analytics transactions={displayTransactions} />
 		{/if}
 
 		<div class="table-section">
 			<div class="section-header">
 				<h2>
 					Transactions
-					{#if filteredTransactions && filteredTransactions.length !== displayTransactions().length}
+					{#if filteredTransactions && filteredTransactions.length !== displayTransactions.length}
 						<span class="filter-indicator">
-							({filteredTransactions.length} of {displayTransactions().length})
+							({filteredTransactions.length} of {displayTransactions.length})
 						</span>
 					{:else}
 						<span class="total-count">({displayTransactions.length} total)</span>
@@ -105,7 +99,7 @@
 				</h2>
 			</div>
 
-			<TransactionTable data={displayTransactions()} {handleChangeTransactions} />
+			<TransactionTable data={displayTransactions} {handleChangeTransactions} />
 		</div>
 	{:else}
 		<div class="loading-state">
