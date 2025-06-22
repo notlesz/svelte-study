@@ -1,0 +1,11 @@
+id,date,description,amount,category
+,2024-05-01,Starbucks Coffee,-5.50,
+,2024-05-02,Whole Foods Market,-45.15,
+,2024-05-03,Salary May,2500.00,Income
+,2024-05-04,Uber Ride,-12.80,
+,2024-05-05,Netflix Subscription,-15.99,
+,2024-05-06,Rent Payment,-1200.00,Housing
+,2024-05-07,Amazon Purchase,-80.25,
+,2024-05-08,Gas Station Shell,-40.00,Gas
+TX1234,2024-05-09,Freelance Payment,600.00,Income
+TX1235,2024-05-10,McDonald's Lunch,-7.99, 
