@@ -5,6 +5,11 @@
 	import Filters from './Filters.svelte';
 	import Analytics from './Analytics.svelte';
 	import CSVUploader from './CSVUploader.svelte';
+	import type { Config } from '@sveltejs/adapter-vercel';
+
+	export const config: Config = {
+		runtime: 'edge'
+	};
 
 	let allTransactions = $state<Transaction[]>([]);
 	let filteredTransactions = $state<Transaction[] | null>(null);
